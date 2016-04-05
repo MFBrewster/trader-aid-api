@@ -11,19 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160327214720) do
+ActiveRecord::Schema.define(version: 20160405173621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "examples", force: :cascade do |t|
-    t.text     "text",       null: false
-    t.integer  "user_id",    null: false
+  create_table "orders", force: :cascade do |t|
+    t.string   "customer"
+    t.integer  "user_id"
+    t.integer  "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "examples", ["user_id"], name: "index_examples_on_user_id", using: :btree
+  add_index "orders", ["product_id"], name: "index_orders_on_product_id", using: :btree
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "price",      precision: 5, scale: 2
+    t.integer  "user_id"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",           null: false
@@ -36,5 +48,7 @@ ActiveRecord::Schema.define(version: 20160327214720) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["token"], name: "index_users_on_token", unique: true, using: :btree
 
-  add_foreign_key "examples", "users"
+  add_foreign_key "orders", "products"
+  add_foreign_key "orders", "users"
+  add_foreign_key "products", "users"
 end
