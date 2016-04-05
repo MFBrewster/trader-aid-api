@@ -1,4 +1,4 @@
-class OrdersController < ApplicationController
+class OrdersController < ProtectedController
   before_action :set_order, only: [:show, :update, :destroy]
 
   # GET /orders
