@@ -11,25 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405173621) do
+ActiveRecord::Schema.define(version: 20160405220953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "orders", force: :cascade do |t|
-    t.string   "customer"
-    t.integer  "user_id"
+  create_table "line_items", force: :cascade do |t|
+    t.integer  "quantity"
+    t.integer  "order_id"
     t.integer  "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "orders", ["product_id"], name: "index_orders_on_product_id", using: :btree
+  add_index "line_items", ["order_id"], name: "index_line_items_on_order_id", using: :btree
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "customer"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
-    t.decimal  "price",      precision: 5, scale: 2
+    t.decimal  "price",      precision: 7, scale: 2
     t.integer  "user_id"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
@@ -48,7 +57,8 @@ ActiveRecord::Schema.define(version: 20160405173621) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["token"], name: "index_users_on_token", unique: true, using: :btree
 
-  add_foreign_key "orders", "products"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "line_items", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "users"
 end

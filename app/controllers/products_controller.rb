@@ -23,7 +23,6 @@ class ProductsController < ProtectedController
   # POST /products.json
   def create
     @product = current_user.products.build(product_params)
-    # @product = Product.new(product_params)
 
     if @product.save
       render json: @product, status: :created, location: @product

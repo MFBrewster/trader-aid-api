@@ -4,7 +4,11 @@ class OrdersController < ProtectedController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = if params[:limit] == 'user'
+      current_user.orders
+    else
+      Order.all
+    end
 
     render json: @orders
   end
@@ -18,7 +22,8 @@ class OrdersController < ProtectedController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
+    @order = current_user.orders.build(order_params)
+    # @order = Order.new(order_params)
 
     if @order.save
       render json: @order, status: :created, location: @order
@@ -54,6 +59,6 @@ class OrdersController < ProtectedController
     end
 
     def order_params
-      params[:order]
+      params.require(:order).permit(:id, :customer, :user_id)
     end
 end
