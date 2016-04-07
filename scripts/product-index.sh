@@ -1,4 +1,4 @@
 #!/bin/bash
 
 curl --include --request GET http://localhost:3000/products \
-  --header "Authorization: Token token=BAhJIiVjMDdhNWY5NTgwODRkNjM4MjBhMDY2NWMwNGY2MmI0OQY6BkVG--e02720f04768f63681dfd881d502c538272b7f35" \
+  --header "Authorization: Token token=BAhJIiUxODZkNTYzYWRmNzIwYWYxZmFlYjlhOWM0NjAzYjY2NgY6BkVG--a8a6a97fdbe057804e49a76933d7532904c59b68" \

@@ -4,11 +4,7 @@ class OrdersController < ProtectedController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = if params[:limit] == 'user'
-      current_user.orders
-    else
-      Order.all
-    end
+    @orders = current_user.orders
 
     render json: @orders
   end

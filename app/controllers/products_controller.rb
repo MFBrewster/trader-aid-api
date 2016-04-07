@@ -4,11 +4,7 @@ class ProductsController < ProtectedController
   # GET /products
   # GET /products.json
   def index
-    @products = if params[:limit] == 'user'
-      current_user.products
-    else
-      Product.all
-    end
+    @products = current_user.products
 
     render json: @products
   end
